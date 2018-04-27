@@ -6,9 +6,9 @@ function ajax(method, url, params, callback) {
  }
  xhr = new XMLHttpRequest();
  xhr.onreadystatechange = function () {
-  if (xhr.readyState === 4 && xhr.status === 200) {
-   callback(xhr.responseText);
-  }
+  if (xhr.readyState === 4) {
+   callback(xhr.responseText, xhr.status);
+  }  
  };
  if (method === 'get') {
   xhr.open(method, url + '?' + paramString, true);

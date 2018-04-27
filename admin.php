@@ -39,9 +39,8 @@
                     <input class="form-control"  type="text" name="pop" >
                 </label>
                 <hr>
-                <button class="btn btn-primary">insert</button>
+                <button class="btn btn-primary">insert<img id="ajaxLoader" src="assets/images/please_wait.gif"</i></button>
             </form>
-
         </div>
         <script src="assets/js/admin.js" type="text/javascript"></script>
     </body>

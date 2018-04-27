@@ -2,6 +2,11 @@
  width: 100%;
  min-height: 300px;
 }
+#ajaxLoader{
+    display:none;
+    width:2rem;
+    height:2rem;
+}
 /*input:required {
     background-color: green;
 }*/

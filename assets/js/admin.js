@@ -1,10 +1,11 @@
 (function () {
 
-    var selectCountry, selectProvinces, formAdmin;
+    var ajaxLoader, selectCountry, selectProvinces, formAdmin, btnInsert;
 
     window.addEventListener('load', init);
 
     function init() {
+        ajaxLoader = document.querySelector('#ajaxLoader');
         selectCountry = document.querySelector('[name="country"]');
         selectCountry.addEventListener('change', getProvinces);
 
@@ -12,34 +13,52 @@
         formAdmin = document.querySelector('#formAdmin');
         formAdmin.addEventListener('submit', sendForm);
         ajax('get', 'getCountries.php', {}, fillCountries);
+        btnInsert = document.querySelector('.btn-primary');
+
 
     }
 //    function serialize(form){
 //        var el = form.querySelectorAll('[name]');
-//        var params;
+//        var params=[];
 //        for (var i = 0; i < el.length; i++) {
 //            console.log(el[i].name, el[i].value);
 //            params.push(el[i].name + "=" +el[i].value);            
 //        }
-//        return params.join('&');     
+//        return params.join('&');   
 //        
 //    }
-    
-    function serializeObject(form){
+
+    function serializeObject(form) {
         var el = form.querySelectorAll('[name]');
-        var params={};
-        for (var i = 0; i < el.length; i++) {            
-            params[el[i].name]= el[i].value;            
+        var params = {};
+        for (var i = 0; i < el.length; i++) {
+            params[el[i].name] = el[i].value;//erstellt ein JSON-Objekt
         }
-        return params;             
+        return params;
     }
     function sendForm(e) {
         e.preventDefault();
-        var params=serializeObject(this);        
-        ajax('post', 'insertCity.php', params, sentForm);                
+        var params = serializeObject(this);
+        ajax('post', 'insertCity.php', params, sentForm);
+        ajaxLoader.style.display = 'inline';
+        //einblenden Loader
+
     }
-    function sentForm(){
-        
+    function sentForm(r, status) {
+        if (parseInt(r) === 1 && status === 200) {
+            ajaxLoader.style.display = 'none';
+            btnInsert.style.backgroundColor = "green";
+            formAdmin.reset();
+            setTimeout(function () {
+                btnInsert.style.backgroundColor = "blue";
+            },
+                    3000);
+
+            //alert('DONE');
+            //ausblenen Loader
+        } else {
+            alert('FALSE');
+        }
     }
     function deleteOptions(selectBox) {
         var max = selectBox.options.length;

@@ -7,7 +7,12 @@ class FilterForm {
  public function __construct() {
   
  }
-
+/**
+ * 
+ * @param string $field Eingabe des Input-Feldes
+ * @param type $filter  Eingabe des Filters der Datenübergabe, z.B. FILTER_SANATIZE_STRING
+ * @param type $column Eingabe der Datenbankspalte, optional, wenn DB-Name = INPUT-Name
+ */
  public function setFilter(string $field, $filter, $column = false) {
   $c = (!$column) ? $field : $column;
   $this->scheme[] = [
