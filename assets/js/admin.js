@@ -47,10 +47,14 @@
     function sentForm(r, status) {
         if (parseInt(r) === 1 && status === 200) {
             ajaxLoader.style.display = 'none';
-            btnInsert.style.backgroundColor = "green";
+            //btnInsert.style.backgroundColor = "green";
+            btnInsert.classList.remove('btn-light');
+            btnclassList.add('btn-success');
             formAdmin.reset();
             setTimeout(function () {
-                btnInsert.style.backgroundColor = "blue";
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-light');
+                //btnInsert.style.backgroundColor = "blue";
             },
                     3000);
 
