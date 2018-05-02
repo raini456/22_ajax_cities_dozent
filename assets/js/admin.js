@@ -1,6 +1,6 @@
 (function () {
 
-    var ajaxLoader, selectCountry, selectProvinces, formAdmin, btnInsert;
+    var ajaxLoader, selectCountry, selectProvinces, formAdmin, btnInsert, fieldCity;
 
     window.addEventListener('load', init);
 
@@ -12,10 +12,10 @@
         selectProvinces = document.querySelector('[name="province"]');
         formAdmin = document.querySelector('#formAdmin');
         formAdmin.addEventListener('submit', sendForm);
-        ajax('get', 'getCountries.php', {}, fillCountries);
         btnInsert = document.querySelector('.btn-primary');
-
-
+        fieldCity = document.querySelector('[name="city"]');
+        fieldCity.addEventListener('keyup', checkCity);
+        ajax('get', 'getCountries.php', {}, fillCountries);
     }
 //    function serialize(form){
 //        var el = form.querySelectorAll('[name]');
@@ -27,7 +27,26 @@
 //        return params.join('&');   
 //        
 //    }
-
+    function checkCity(evt){
+        var params={
+            'city':this.value,
+            'province':selectProvinces.value,
+            'iso3':selectCountry.value
+        }
+        ajax('get', 'checkCity.php', params, evalCity); 
+        console.log(this.value);
+    }
+    /*
+     * Hier kommt der Wert aus ajax() an als Callback-Funktion
+     */
+    function evalCity(r){
+        fieldCity.classList.remove('is-invalid');
+        btnInsert.style.display="inline";
+        if(r==='1'){
+            fieldCity.classList.add('is-invalid');
+            btnInsert.style.display="none";
+        }        
+    }
     function serializeObject(form) {
         var el = form.querySelectorAll('[name]');
         var params = {};
@@ -37,8 +56,12 @@
         return params;
     }
     function sendForm(e) {
+        if(fieldCity.classList.contains('is-invalid')){
+         return false;    
+        }
         e.preventDefault();
         var params = serializeObject(this);
+        
         ajax('post', 'insertCity.php', params, sentForm);
         ajaxLoader.style.display = 'inline';
         //einblenden Loader
@@ -85,7 +108,7 @@
     function getProvinces() {
         ajax('get', 'getProvinces.php', {'iso3': this.value}, fillProvinces);
     }
-
+    
     function fillCountries(json) {
         var countries = JSON.parse(json);
 

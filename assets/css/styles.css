@@ -7,6 +7,10 @@
     width:2rem;
     height:2rem;
 }
+.warning{
+    color:red;
+    border:2px solid red;    
+}
 /*input:required {
     background-color: green;
 }*/
